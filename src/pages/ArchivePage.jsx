@@ -1,26 +1,56 @@
 import React from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { getArchivedNotes, deleteNote, unarchiveNote } from '../utils/local-data';
+import { getArchivedNotes, deleteNote, unarchiveNote } from '../utils/network-data';
 import NoteSearch from '../components/NoteSearch';
 import NotesList from '../components/NotesList';
+import Swal from 'sweetalert2';
 
 function ArchivePage(){
-    const [notes, setNotes] = React.useState(getArchivedNotes());
+    const [notes, setNotes] = useState();
+    const [isLoading, setIsLoading] = useState(true);
     const [searchParams, setSearchParams] = useSearchParams();
     const keyword = searchParams.get('keyword') || '';
+
+    useEffect(() => {
+        getArchivedNotes().then(({ data }) => {
+            setNotes(data);
+            setIsLoading(false);
+        });
+    }, []);
 
     const onSearchHandler = (newKeyword) => {
         setSearchParams({keyword: newKeyword});
     };
 
-    const onDeleteHandler = (id) => {
-        deleteNote(id);
-        setNotes(getArchivedNotes());
+    const onDeleteHandler = async (id) => {
+        const result = await Swal.fire({
+            title: "Apakah Anda Yakin?",
+            text: "Anda tidak akan mendapatkan catatan ini kembali!",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ff5f52',
+            cancelButtonColor: '#202124',
+            confirmButtonText: 'Yes, delete it!' 
+        });
+
+
+        if(result.isConfirmed){
+            await deleteNote(id);
+            const { data } = await getArchivedNotes();
+            setNotes(data);
+
+            Swal.fire(
+                'Deleted!',
+                'Catatan anda sudah terhapus',
+                'success'
+            );
+        }    
     };
 
-    const onUnarchiveHandler = (id) => {
-        unarchiveNote(id);
-        setNotes(getArchivedNotes());
+    const onUnarchiveHandler = async (id) => {
+        await unarchiveNote(id);
+        const { data } = getArchivedNotes();
+        setNotes(data);
     };
 
     const filteredNotes = notes.filter((note) =>

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { addNote } from '../utils/local-data';
+import { addNote } from '../utils/network-data';
 
 function AddPage() {
     const [title, setTitle] = useState('');
@@ -17,15 +17,17 @@ function AddPage() {
         setBody(event.target.value);
     };
 
-    const onSubmitEventHandler = (event) => {
+    const onSubmitEventHandler = async (event) => {
         event.preventDefault();
 
-        addNote({
+        const { error } = await addNote({
             title: title,
             body: body,
         });
 
-        navigate('/');
+        if(!error){
+            navigate('/');
+        }
     };
 
     const remainingChars = 50 - title.length;

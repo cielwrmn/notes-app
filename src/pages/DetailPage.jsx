@@ -1,12 +1,25 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import { getNote } from '../utils/local-data';
+import { getNote } from '../utils/network-data';
 import { showFormattedDate } from '../utils/index';
 import NotFoundPage from './NotFoundPage';
 
 function DetailPage(){
     const { id } = useParams();
-    const note = getNote(id);
+    const [note, setNote] = useState(null);
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        getNote(id).then(({ data }) => {
+            setNote(data);
+            setIsLoading(false);
+        });
+    }, [id]);
+
+    if(isLoading){
+        return <p>Memuat detail catatan...</p>
+    }
+
     if (!note){
         return <NotFoundPage />;
     }

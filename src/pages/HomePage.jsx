@@ -25,8 +25,8 @@ function HomePage(){
         setSearchParams({keyword: newKeyword});
     };
 
-    const onDeleteHandler = (id) => {
-        Swal.fire({
+    const onDeleteHandler = async (id) => {
+        const result = Swal.fire({
             title: "Apakah Anda Yakin?",
             text: "Anda tidak akan mendapatkan catatan ini kembali!",
             icon: 'warning',
@@ -34,29 +34,35 @@ function HomePage(){
             confirmButtonColor: '#ff5f52',
             cancelButtonColor: '#202124',
             confirmButtonText: 'Yes, delete it!' 
-        }).then((result) => {
-            if(result.isConfirmed){
-                deleteNote(id);
-                setNotes(getActiveNotes());
-
-                Swal.fire(
-                    'Deleted!',
-                    'Catatan anda sudah terhapus',
-                    'success'
-                );
-            }
         });
-        
-    };
 
-    const onArchiveHandler = (id) => {
-        archiveNote(id);
-        setNotes(getActiveNotes());
+
+        if(result.isConfirmed){
+            await deleteNote(id);
+            const { data } = await getActiveNotes();
+            setNotes(data);
+
+            Swal.fire(
+                'Deleted!',
+                'Catatan anda sudah terhapus',
+                'success'
+            );
+        }
+    }
+
+    const onArchiveHandler = async (id) => {
+        await archiveNote(id);
+        const { data } = await getActiveNotes();
+        setNotes(data);
     };
 
     const filteredNotes = notes.filter((note) =>
         note.title.toLowerCase().includes(keyword.toLowerCase())
     );
+
+    if(isLoading){
+        return <p>Memuat catatan...</p>
+    }
 
     return(
         <section className='homepage note-app__body'>
