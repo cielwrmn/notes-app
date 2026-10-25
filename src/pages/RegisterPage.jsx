@@ -55,14 +55,14 @@ function RegisterPage(){
                         value = {email}
                         onChange = {(e) => setEmail(e.target.value)}
                     />
-                    <input 
+                    <Input 
                         type = "password"
                         id = "confirmPassword"
                         value = {password}
                         onChange = {(e) => setPassword(e.target.value)}
                         required
                     />
-                    <input 
+                    <Input 
                         type = "password"
                         id = "confirmPassword"
                         value = {password}
@@ -72,7 +72,7 @@ function RegisterPage(){
                     <button type="submit">Daftar</button>
                 </form>
             </div>
-            <p>Sudah punya akun?</p>
+            <p>Sudah punya akun? <Link to="/login">Login di sini</Link></p>
         </section>
     )
 }
