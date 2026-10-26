@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { getNote } from '../utils/network-data';
 import { showFormattedDate } from '../utils/index';
@@ -11,7 +11,7 @@ function DetailPage(){
 
     useEffect(() => {
         getNote(id).then(({ data }) => {
-            setNote(data);
+            setNote(data || []);
             setIsLoading(false);
         });
     }, [id]);

@@ -12,6 +12,7 @@ import AddPage from './pages/AddPage';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import DetailPage from './pages/DetailPage';
+import NotFoundPage from './pages/NotFoundPage';
 
 function App() {
     const [authedUser, setAuthedUser] = useState(null);
@@ -106,6 +107,7 @@ function App() {
                                 <Route path="/archives" element={<ArchivePage />} />
                                 <Route path="/notes/new" element={<AddPage />} />
                                 <Route path="/notes/:id" element={<DetailPage />} />
+                                <Route path="*" element={<NotFoundPage />} />
                             </Routes>
                         )}
                     </main>
