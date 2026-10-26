@@ -3,6 +3,7 @@ import { Routes, Route, useNavigate } from 'react-router-dom';
 import { getUserLogged, putAccessToken } from './utils/network-data';
 import { ThemeContext } from './contexts/ThemeContext';
 import { LocaleContext } from './contexts/LocaleContext';
+import Swal from 'sweetalert2';
 
 import Navigation from './components/Navigation';
 import HomePage from './pages/HomePage';
@@ -59,10 +60,24 @@ function App() {
         navigate('/');
     };
 
-    const onLogout = () => {
-        setAuthedUser(null);
-        putAccessToken('');
-        navigate('/login');
+    const onLogout = async () => {
+        const result = await Swal.fire({
+            title: 'Keluar dari Aplikasi?',
+            text: 'Anda harus login kembali untuk melihat catatan.',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ff5f52',
+            cancelButtonColor: '#202124',
+            confirmButtonText: 'Ya, Keluar',
+            cancelButtonText: 'Batal'
+        });
+
+        if(result.isConfirmed){
+            setAuthedUser(null);
+            putAccessToken('');
+            navigate('/login');
+        }
+        
     };
 
     if (initializing) {

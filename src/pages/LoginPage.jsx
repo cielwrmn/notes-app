@@ -1,43 +1,42 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
 import { login, putAccessToken } from '../utils/network-data';
-import Input from '../components/Input';
+import Input from '../components/Input'; 
+import useInput from '../hooks/useInput'; 
 
-function LoginPage({ loginSuccess }){
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    
+function LoginPage({ loginSuccess }) {
+    const [email, onEmailChange] = useInput('');
+    const [password, onPasswordChange] = useInput('');
+
     const onSubmitHandler = async (event) => {
         event.preventDefault();
-
         const { error, data } = await login({ email, password });
 
-        if(!error){
+        if (!error) {
             putAccessToken(data.accessToken);
             loginSuccess();
         }
     };
 
-    return(
+    return (
         <section className='login-page'>
-            <h2>Login untuk menggunakan aplikasi</h2>
+            <h2>Yuk, login untuk menggunakan aplikasi.</h2>
             <form onSubmit={onSubmitHandler} className='input-login'>
                 <Input 
-                        type = "email"
-                        id = "email"
-                        label = "Email"
-                        value = {email}
-                        onChange = {(e) => setEmail(e.target.value)}
-                    />
-                    <Input 
-                        type = "password"
-                        id = "confirmPassword"
-                        label="Password"
-                        value = {password}
-                        onChange = {(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    <button type='submit' className='submit-button'>Login</button>
+                    type="email" 
+                    id="email" 
+                    label="Email" 
+                    value={email} 
+                    onChange={onEmailChange} 
+                />
+                <Input 
+                    type="password" 
+                    id="password" 
+                    label="Password" 
+                    value={password} 
+                    onChange={onPasswordChange} 
+                />
+                <button type="submit" className="submit-button">Login</button>
             </form>
             <p>Belum punya akun? <Link to="/register">Daftar di sini</Link></p>
         </section>
