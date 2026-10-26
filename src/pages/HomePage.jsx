@@ -9,14 +9,14 @@ import Swal from 'sweetalert2';
 
 
 function HomePage(){
-    const [notes, setNotes] = React.useState([]);
+    const [notes, setNotes] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [searchParams, setSearchParams] = useSearchParams();
     const keyword = searchParams.get('keyword') || '';
 
     useEffect(() => {
         getActiveNotes().then(({ data }) => {
-            setNotes(data);
+            setNotes(data || []);
             setIsLoading(false);
         });
     }, []);
@@ -26,7 +26,7 @@ function HomePage(){
     };
 
     const onDeleteHandler = async (id) => {
-        const result = Swal.fire({
+        const result = await Swal.fire({
             title: "Apakah Anda Yakin?",
             text: "Anda tidak akan mendapatkan catatan ini kembali!",
             icon: 'warning',
@@ -40,7 +40,7 @@ function HomePage(){
         if(result.isConfirmed){
             await deleteNote(id);
             const { data } = await getActiveNotes();
-            setNotes(data);
+            setNotes(data || []);
 
             Swal.fire(
                 'Deleted!',
@@ -53,7 +53,7 @@ function HomePage(){
     const onArchiveHandler = async (id) => {
         await archiveNote(id);
         const { data } = await getActiveNotes();
-        setNotes(data);
+        setNotes(data || []);
     };
 
     const filteredNotes = notes.filter((note) =>

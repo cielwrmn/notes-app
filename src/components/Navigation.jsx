@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-function Navigation(){
+function Navigation({ name, logout }){
     return (
         <header className='note-app__header'>
             <h1>
@@ -46,6 +46,29 @@ function Navigation(){
                         >
                             Archives
                         </Link>
+                    </li>
+                    <li>
+                        <button
+                            onClick={logout}
+                            style={{
+                                background: 'transparent',
+                                border: '1px solid #fff',
+                                color: 'inherit',
+                                padding: '8px 16px',
+                                borderRadius: '4px',
+                                fontSize: '16px',
+                                cursor: 'pointer',
+                                display: 'flex',
+                                alignItems: 'center',
+                                gap: '8px'
+                            }}
+                            title="Klik untuk keluar"
+                        >
+                            {name} <span style={{
+                                fontSize: '14px',
+                                opacity: 0.8
+                            }}>(Keluar)</span>
+                        </button>
                     </li>
                 </ul>
             </nav>

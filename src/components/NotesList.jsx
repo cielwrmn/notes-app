@@ -43,7 +43,11 @@ function NotesList({ notes, onDelete, onArchive, searchKeyword, dataTestId = 'no
                                     monthNotes.map((note) => (
                                         <NoteItem 
                                             key={note.id}
-                                            {...note}
+                                            id={note.id}
+                                            title={note.title}
+                                            body={note.body}
+                                            createdAt={note.createdAt}
+                                            archived={note.archived}
                                             onDelete={onDelete}
                                             onArchive={onArchive}
                                             searchKeyword={searchKeyword}

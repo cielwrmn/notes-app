@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../utils/network-data';
+import Swal from 'sweetalert2';
+import Input from '../components/Input';
 
 function RegisterPage(){
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
     const navigate = useNavigate();
 
@@ -20,6 +23,7 @@ function RegisterPage(){
                 cancelButtonColor: '#202124',
                 confirmButtonText: 'Yes, delete it!' 
             });
+            return;
         }
 
         const { error } = await register({ name, email, password });
@@ -57,7 +61,7 @@ function RegisterPage(){
                     />
                     <Input 
                         type = "password"
-                        id = "confirmPassword"
+                        id = "password"
                         value = {password}
                         onChange = {(e) => setPassword(e.target.value)}
                         required
@@ -65,8 +69,8 @@ function RegisterPage(){
                     <Input 
                         type = "password"
                         id = "confirmPassword"
-                        value = {password}
-                        onChange = {(e) => setPassword(e.target.value)}
+                        value = {confirmPassword}
+                        onChange = {(e) => setConfirmPassword(e.target.value)}
                         required
                     />
                     <button type="submit">Daftar</button>
@@ -74,5 +78,7 @@ function RegisterPage(){
             </div>
             <p>Sudah punya akun? <Link to="/login">Login di sini</Link></p>
         </section>
-    )
+    );
 }
+
+export default RegisterPage;

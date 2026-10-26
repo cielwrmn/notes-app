@@ -29,7 +29,7 @@ function highlightText(text, keyword){
     });
 }
 
-function NoteItem({ id, title, body, createdAt, onDelete, onArchive, searchKeyword }){
+function NoteItem({ id, title, body, createdAt, onDelete, archived, onArchive, searchKeyword }){
     console.log(searchKeyword);
 
     return(
@@ -69,8 +69,8 @@ function NoteItem({ id, title, body, createdAt, onDelete, onArchive, searchKeywo
                     dataTestId="note-item-delete-button"
                 />
                 <NoteActionButton
-                    label="Archive"
-                    variant="archive"
+                    label={archived ? "Unarchive" : "Archive"}
+                    variant={archived ? "unarchive" : "archive"}
                     onClick={() => onArchive(id)}
                     dataTestId="note-item-archive-button"
                 />
