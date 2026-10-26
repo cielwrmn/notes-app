@@ -1,6 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { getActiveNotes, deleteNote, archiveNote } from '../utils/network-data';
+import { ThemeContext } from '../contexts/ThemeContext';
+import { LocaleContext } from '../contexts/LocaleContext';
+
 import NoteSearch from '../components/NoteSearch';
 import NotesList from '../components/NotesList';
 import AddButton from '../components/AddButton';
@@ -13,6 +16,10 @@ function HomePage(){
     const [isLoading, setIsLoading] = useState(true);
     const [searchParams, setSearchParams] = useSearchParams();
     const keyword = searchParams.get('keyword') || '';
+
+    const { theme, toggleTheme } = useContext(ThemeContext);
+    const { locale, toggleLocale } = useContext(LocaleContext);
+    
 
     useEffect(() => {
         getActiveNotes().then(({ data }) => {
@@ -66,7 +73,9 @@ function HomePage(){
 
     return(
         <section className='homepage note-app__body'>
-            <h2 className='note-active-header'>Catatan Aktif</h2>
+            <h2 className='note-active-header'>
+                {locale === 'id' ? 'Catatan Aktif' : 'Active Notes'}
+            </h2>
             <NoteSearch 
                 keyword={keyword} 
                 onSearch={onSearchHandler} 

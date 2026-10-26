@@ -14,7 +14,7 @@ function Navigation({ name, logout }){
                     to='/'
                     style={{ 
                         textDecoration: 'none',
-                        color: 'inherit' 
+                        color: 'inherit', 
                     }} 
                 >
                     {locale === 'id' ? 'Aplikasi Catatan' : 'Notes App'}
@@ -24,9 +24,10 @@ function Navigation({ name, logout }){
                 <ul style={{
                     display: 'flex',
                     listStyle:'none',
-                    gap: '24px',
+                    gap: '10px',
                     margin: 0,
-                    padding: 0
+                    padding: 0,
+                    alignItems: 'center'
                 }}>
                     <li>
                         <Link 
@@ -34,7 +35,7 @@ function Navigation({ name, logout }){
                             style={{ 
                                 textDecoration: 'underline',
                                 color: 'inherit',
-                                fontSize: '18px' 
+                                fontSize: '16px' 
                             }}     
                         >
                             {locale === 'id' ? 'Beranda' : 'Home'}
@@ -46,10 +47,10 @@ function Navigation({ name, logout }){
                             style={{ 
                                 textDecoration: 'underline',
                                 color: 'inherit',
-                                fontSize: '18px' 
+                                fontSize: '16px' 
                             }}     
                         >
-                            {locale === 'id' ? 'Arsip' : 'Archieved'}
+                            {locale === 'id' ? 'Arsip' : 'Archive'}
                         </Link>
                     </li>
 
@@ -64,14 +65,19 @@ function Navigation({ name, logout }){
                             {locale === 'id' ? 'en' : 'id'}
                         </button>
                     </li>
-                    <li>
-                        <button
-                            onClick={logout}
-                            title="Klik untuk keluar"
-                        >
-                            {name} <span>({locale === 'id' ? 'Keluar' : 'Logout'})</span>
-                        </button>
-                    </li>
+                    
+                    {name && logout && (
+                        <li>
+                            <button
+                                onClick={logout}
+                                title="Klik untuk keluar"
+                                className='toggle-button'
+                            >
+                                {name} <span>({locale === 'id' ? 'Keluar' : 'Logout'})</span>
+                            </button>
+                        </li>
+                    )}
+                    
                 </ul>
             </nav>
         </header>

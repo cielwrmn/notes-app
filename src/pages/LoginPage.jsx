@@ -32,11 +32,12 @@ function LoginPage({ loginSuccess }){
                     <Input 
                         type = "password"
                         id = "confirmPassword"
+                        label="Password"
                         value = {password}
                         onChange = {(e) => setPassword(e.target.value)}
                         required
                     />
-                    <button type='submit'>Login</button>
+                    <button type='submit' className='submit-button'>Login</button>
             </form>
             <p>Belum punya akun? <Link to="/register">Daftar di sini</Link></p>
         </section>

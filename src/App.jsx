@@ -69,41 +69,34 @@ function App() {
         return null; 
     }
 
-    if (authedUser === null) {
-        return (
-            <div className="app-container">
-                <header>
-                    <h1>Aplikasi Catatan</h1>
-                </header>
-                <main>
-                    <Routes>
-                        <Route path="/*" element={<LoginPage loginSuccess={onLoginSuccess} />} />
-                        <Route path="/register" element={<RegisterPage />} />
-                    </Routes>
-                </main>
-            </div>
-        );
-    }
-
     return (
         <ThemeContext.Provider value={themeContextValue}>
             <LocaleContext.Provider value={localeContextValue}>
                 <div className="app-container">
                     <header>
-                        <Navigation name={authedUser.name} logout={onLogout} />
+                        <Navigation 
+                            name={authedUser ? authedUser.name : null} 
+                            logout={authedUser ? onLogout : null} 
+                        />
                     </header>
                     <main>
-                        <Routes>
-                            <Route path="/" element={<HomePage />} />
-                            <Route path="/archives" element={<ArchivePage />} />
-                            <Route path="/notes/new" element={<AddPage />} />
-                            <Route path="/notes/:id" element={<DetailPage />} />
-                        </Routes>
+                        {authedUser === null ? (
+                            <Routes>
+                                <Route path="/*" element={<LoginPage loginSuccess={onLoginSuccess} />} />
+                                <Route path="/register" element={<RegisterPage/>} />
+                            </Routes>
+                        ):(
+                            <Routes>
+                                <Route path="/" element={<HomePage />} />
+                                <Route path="/archives" element={<ArchivePage />} />
+                                <Route path="/notes/new" element={<AddPage />} />
+                                <Route path="/notes/:id" element={<DetailPage />} />
+                            </Routes>
+                        )}
                     </main>
                 </div>
             </LocaleContext.Provider>
         </ThemeContext.Provider>
-        
     );
 }
 

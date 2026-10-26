@@ -19,9 +19,9 @@ function RegisterPage(){
             Swal.fire({
                 title: "Registrasi Gagal",
                 text: "Password dan konfirmasi password tidak cocok",
-                confirmButtonColor: '#ff5f52',
-                cancelButtonColor: '#202124',
-                confirmButtonText: 'Yes, delete it!' 
+                confirmButtonColor: "#ff5f52",
+                cancelButtonColor: "#202124",
+                confirmButtonText: "Yes, delete it!" 
             });
             return;
         }
@@ -30,10 +30,10 @@ function RegisterPage(){
 
         if(!error){
             Swal.fire({
-                icon: 'success',
-                title: 'Berhasil!',
-                text: 'Akun Anda telah terdaftar. Silakan login.',
-                confirmButtonColor: '#202124'
+                icon: "success",
+                title: "Berhasil!",
+                text: "Akun Anda telah terdaftar. Silakan login.",
+                confirmButtonColor:"#202124"
             });
             
             navigate('/login');
@@ -62,6 +62,7 @@ function RegisterPage(){
                     <Input 
                         type = "password"
                         id = "password"
+                        label = "Password"
                         value = {password}
                         onChange = {(e) => setPassword(e.target.value)}
                         required
@@ -69,11 +70,12 @@ function RegisterPage(){
                     <Input 
                         type = "password"
                         id = "confirmPassword"
+                        label = "Confirm Password"
                         value = {confirmPassword}
                         onChange = {(e) => setConfirmPassword(e.target.value)}
                         required
                     />
-                    <button type="submit">Daftar</button>
+                    <button type="submit" className='submit-button'>Daftar</button>
                 </form>
             </div>
             <p>Sudah punya akun? <Link to="/login">Login di sini</Link></p>
