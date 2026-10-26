@@ -1,7 +1,12 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { ThemeContext } from '../contexts/ThemeContext';
+import { LocaleContext } from '../contexts/LocaleContext';
 
 function Navigation({ name, logout }){
+    const { theme, toggleTheme } = useContext(ThemeContext);
+    const { locale, toggleLocale } = useContext(LocaleContext);
+
     return (
         <header className='note-app__header'>
             <h1>
@@ -12,7 +17,7 @@ function Navigation({ name, logout }){
                         color: 'inherit' 
                     }} 
                 >
-                    Notes App
+                    {locale === 'id' ? 'Aplikasi Catatan' : 'Notes App'}
                 </Link>
             </h1>
             <nav className='navigation'>
@@ -32,7 +37,7 @@ function Navigation({ name, logout }){
                                 fontSize: '18px' 
                             }}     
                         >
-                            Home
+                            {locale === 'id' ? 'Beranda' : 'Home'}
                         </Link>
                     </li>
                     <li>
@@ -44,30 +49,27 @@ function Navigation({ name, logout }){
                                 fontSize: '18px' 
                             }}     
                         >
-                            Archives
+                            {locale === 'id' ? 'Arsip' : 'Archieved'}
                         </Link>
+                    </li>
+
+                    <li>
+                        <button onClick={toggleTheme} className="toggle-button">
+                            {theme === 'light' ? '🌙' : '☀️'}
+                        </button>
+                    </li>
+
+                    <li>
+                        <button onClick={toggleLocale} className="toggle-button">
+                            {locale === 'id' ? 'en' : 'id'}
+                        </button>
                     </li>
                     <li>
                         <button
                             onClick={logout}
-                            style={{
-                                background: 'transparent',
-                                border: '1px solid #fff',
-                                color: 'inherit',
-                                padding: '8px 16px',
-                                borderRadius: '4px',
-                                fontSize: '16px',
-                                cursor: 'pointer',
-                                display: 'flex',
-                                alignItems: 'center',
-                                gap: '8px'
-                            }}
                             title="Klik untuk keluar"
                         >
-                            {name} <span style={{
-                                fontSize: '14px',
-                                opacity: 0.8
-                            }}>(Keluar)</span>
+                            {name} <span>({locale === 'id' ? 'Keluar' : 'Logout'})</span>
                         </button>
                     </li>
                 </ul>
